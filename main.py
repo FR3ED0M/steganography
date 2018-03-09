@@ -139,6 +139,7 @@ def embedImage(z=5):
     key = Image.open("images/watermark.png").resize(data.size)
     data.getpixel((0, 0))
     key.getpixel((0, 0))
+
     for i in range(data.size[0]):
         for j in range(data.size[1]):
             p = data.getpixel((i, j))
@@ -147,6 +148,7 @@ def embedImage(z=5):
             green = (int(p[1])) - (int(p[1] % z)) + (int(z * q[1] / 255))
             blue = (int(p[2])) - (int(p[2] % z)) + (int(z * q[2] / 255))
             data.putpixel((i, j), (red, green, blue))
+
     ph2 = ImageTk.PhotoImage(data)
     label3 = Label(image=ph2)
     label3.image = ph2
@@ -159,6 +161,7 @@ def embedImage(z=5):
 # ERROR: ONLY SMALL SECTION OF WATERMARK IS GETTING EXTRACTED
 def xtractImage(z=5):
     data = Image.open("images/inside.png")
+
     for i in range(data.size[0]):
         for j in range(data.size[1]):
             p = data.getpixel((i, j))
@@ -166,6 +169,7 @@ def xtractImage(z=5):
             green = (int(p[1] % z) * (int(255 / z)))
             blue = (int(p[2] % z) * (int(255 / z)))
             data.putpixel((i, j), (red, green, blue))
+
     data = data.resize((160, 120), Image.ANTIALIAS)
     ph3 = ImageTk.PhotoImage(data)
     label4 = Label(image=ph3)
@@ -198,7 +202,7 @@ popup2.add_command(label="Plains", command=y.openPlains)
 popup2.add_command(label="Plasma", command=y.openPlasma)
 
 # title of window
-parent.title('Image Process')
+parent.title('Image Watermarking')
 
 # frame of the window
 frame = ttk.Frame(parent, borderwidth=5)
