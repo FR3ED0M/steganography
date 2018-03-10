@@ -207,15 +207,19 @@ parent.title('Image Watermarking')
 # frame of the window
 frame = ttk.Frame(parent, borderwidth=5)
 
-# buttons, as well as the bind for clicking to get the popup menu
+# original and watermark selection buttons
 select = ttk.Button(parent, text="Select Image")
 select.bind("<Button-1>", do_popup)
 wmImage = ttk.Button(parent, text="Select Watermark")
 wmImage.bind("<Button-1>", do_popup2)
 
+# seperator
+sep = ttk.Separator(parent, orient=VERTICAL)
+sep.pack(side=RIGHT, fill=Y, expand=True)
+
+# embed and extract watermark buttons
 wmEmbed = ttk.Button(parent, text="Embed Watermark", command=embedImage)
 wmXtract = ttk.Button(parent, text="Extract Watermark", command=xtractImage)
-
 
 # placement geometry of frame and buttons
 select.place(x=10, y=15)
@@ -224,6 +228,6 @@ wmEmbed.place(x=600, y=15)
 wmXtract.place(x=890, y=15)
 
 # geometry of the main "parent" frame and window
-parent.geometry("1075x375")
+parent.geometry("1065x375")
 
 parent.mainloop()
