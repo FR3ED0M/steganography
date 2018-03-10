@@ -134,48 +134,48 @@ def do_popup2(event):
 
 # embed a watermark into the original selected image
 def embedImage(z=5):
-    data = Image.open("images/new_image.png")
-    data = data.resize((250, 250), Image.ANTIALIAS)
-    key = Image.open("images/watermark.png").resize(data.size)
-    data.getpixel((0, 0))
-    key.getpixel((0, 0))
+    img = Image.open("images/new_image.png")
+    img = img.resize((250, 250), Image.ANTIALIAS)
+    wMark = Image.open("images/watermark.png").resize(img.size)
+    img.getpixel((0, 0))
+    wMark.getpixel((0, 0))
 
-    for i in range(data.size[0]):
-        for j in range(data.size[1]):
-            p = data.getpixel((i, j))
-            q = key.getpixel((i, j))
-            red = (int(p[0])) - (int(p[0] % z)) + (int(z * q[0] / 255))
-            green = (int(p[1])) - (int(p[1] % z)) + (int(z * q[1] / 255))
-            blue = (int(p[2])) - (int(p[2] % z)) + (int(z * q[2] / 255))
-            data.putpixel((i, j), (red, green, blue))
+    for i in range(img.size[0]):
+        for j in range(img.size[1]):
+            a = img.getpixel((i, j))
+            b = wMark.getpixel((i, j))
+            red = (int(a[0])) - (int(a[0] % z)) + (int(z * b[0] / 255))
+            green = (int(a[1])) - (int(a[1] % z)) + (int(z * b[1] / 255))
+            blue = (int(a[2])) - (int(a[2] % z)) + (int(z * b[2] / 255))
+            img.putpixel((i, j), (red, green, blue))
 
-    ph2 = ImageTk.PhotoImage(data)
+    ph2 = ImageTk.PhotoImage(img)
     label3 = Label(image=ph2)
     label3.image = ph2
     label3.place(x=600, y=75)
-    data.save("images/inside.png")
+    img.save("images/inside.png")
     return
 
 
 # extract the watermark from the original selected image
 # ERROR: ONLY SMALL SECTION OF WATERMARK IS GETTING EXTRACTED
 def xtractImage(z=5):
-    data = Image.open("images/inside.png")
+    hidden = Image.open("images/inside.png")
 
-    for i in range(data.size[0]):
-        for j in range(data.size[1]):
-            p = data.getpixel((i, j))
-            red = (int(p[0] % z) * (int(255 / z)))
-            green = (int(p[1] % z) * (int(255 / z)))
-            blue = (int(p[2] % z) * (int(255 / z)))
-            data.putpixel((i, j), (red, green, blue))
+    for i in range(hidden.size[0]):
+        for j in range(hidden.size[1]):
+            a = hidden.getpixel((i, j))
+            red = (int(a[0] % z) * (int(255 / z)))
+            green = (int(a[1] % z) * (int(255 / z)))
+            blue = (int(a[2] % z) * (int(255 / z)))
+            hidden.putpixel((i, j), (red, green, blue))
 
-    data = data.resize((160, 120), Image.ANTIALIAS)
-    ph3 = ImageTk.PhotoImage(data)
+    hidden = hidden.resize((160, 120), Image.ANTIALIAS)
+    ph3 = ImageTk.PhotoImage(hidden)
     label4 = Label(image=ph3)
     label4.image = ph3
     label4.place(x=890, y=75)
-    data.save("images/xtract.png")
+    hidden.save("images/xtract.png")
     return
 
 
@@ -212,6 +212,7 @@ select = ttk.Button(parent, text="Select Image")
 select.bind("<Button-1>", do_popup)
 wmImage = ttk.Button(parent, text="Select Watermark")
 wmImage.bind("<Button-1>", do_popup2)
+
 wmEmbed = ttk.Button(parent, text="Embed Watermark", command=embedImage)
 wmXtract = ttk.Button(parent, text="Extract Watermark", command=xtractImage)
 
